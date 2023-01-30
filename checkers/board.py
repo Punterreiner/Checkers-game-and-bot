@@ -30,7 +30,6 @@ class Board:
     
     def check_legal_move(self, piece, row, col, hops, red): 
         if ( piece.row + 1 == row or piece.row - 1 == row) and row%2 != col%2 and (piece.col + 1 == col or piece.col - 1 >= col):
-            print(piece)
             if piece.king == True:
                 if piece.color == WHITE and red == False:    
                     return True
@@ -57,21 +56,21 @@ class Board:
                             return True
                         elif row == hop.row - 1 and col == hop.col - 1:
                             self.board[hop.row][hop.col] = 0
-                            self.white_left -= 1
+                            self.red_left -= 1
                             return True
                         elif row == hop.row - 1 and col == hop.col + 1:
                             self.board[hop.row][hop.col] = 0
-                            self.white_left -= 1
+                            self.red_left -= 1
                             return True
                 elif piece.color == RED and row%2 != col%2 and red == True:
                     for hop in hops:
                         if row == hop.row + 1 and col == hop.col - 1:
                             self.board[hop.row][hop.col] = 0
-                            self.red_left -= 1
+                            self.white_left -= 1
                             return True
                         elif row == hop.row + 1 and col == hop.col + 1:
                             self.board[hop.row][hop.col] = 0
-                            self.red_left -= 1
+                            self.white_left -= 1
                             return True
                         elif row == hop.row - 1 and col == hop.col - 1:
                             self.board[hop.row][hop.col] = 0
@@ -105,7 +104,6 @@ class Board:
     def check_hop(self, piece):
         hops = [] 
         if piece != 0 and piece.col != COLS - 1:
-            print(piece.row, piece.col)
             if piece.king == True:                
                 if piece.color == WHITE:
                     if piece.row < ROWS - 2:
@@ -114,16 +112,13 @@ class Board:
                         if SOUTHEAST != 0 and SOUTHEAST.color == RED and piece.col + 2 <= COLS - 1 and self.board[piece.row + 2][piece.col + 2] == 0:
                             hops.append(SOUTHEAST)
                         if SOUTHWEST != 0 and SOUTHWEST.color == RED  and piece.col - 2 >= 0 and self.board[piece.row + 2][piece.col - 2] == 0:
-                            print("hop")
                             hops.append(SOUTHWEST)
                     if piece.row > 1:
                         NORTHWEST = self.board[piece.row - 1][piece.col - 1]
                         NORTHEAST = self.board[piece.row - 1][piece.col + 1]
                         if NORTHEAST != 0 and NORTHEAST.color == RED and piece.col + 2 <= COLS - 1 and self.board[piece.row - 2][piece.col + 2] == 0:
-                            print("hop")
                             hops.append(NORTHEAST)
                         if NORTHWEST != 0 and NORTHWEST.color == RED and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                            print("hop")
                             hops.append(NORTHWEST)
                 elif piece.color == RED:
                     if piece.row < ROWS - 2:
@@ -132,35 +127,28 @@ class Board:
                         if SOUTHEAST != 0 and SOUTHEAST.color == WHITE and piece.col + 2 <= COLS - 1 and self.board[piece.row + 2][piece.col + 2] == 0:
                             hops.append(SOUTHEAST)
                         if SOUTHWEST != 0 and SOUTHWEST.color == WHITE  and piece.col - 2 >= 0 and self.board[piece.row + 2][piece.col - 2] == 0:
-                            print("hop")
                             hops.append(SOUTHWEST)
                     if piece.row > 1:
                         NORTHWEST = self.board[piece.row - 1][piece.col - 1]
                         NORTHEAST = self.board[piece.row - 1][piece.col + 1]
                         if NORTHEAST != 0 and NORTHEAST.color == WHITE and piece.col + 2 <= COLS - 1 and self.board[piece.row - 2][piece.col + 2] == 0:
-                            print("hop")
                             hops.append(NORTHEAST)
                         if NORTHWEST != 0 and NORTHWEST.color == WHITE and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                            print("hop")
                             hops.append(NORTHWEST)
             if piece.color == WHITE and piece.row < ROWS - 2:
                 SOUTHWEST = self.board[piece.row + 1][piece.col - 1]
                 SOUTHEAST = self.board[piece.row + 1][piece.col + 1]
                 if SOUTHEAST != 0 and SOUTHEAST.color == RED and piece.col + 2 <= COLS - 1 and self.board[piece.row + 2][piece.col + 2] == 0:
-                    print("hop")
                     hops.append(SOUTHEAST)
                 if SOUTHWEST != 0 and SOUTHWEST.color == RED  and piece.col - 2 >= 0 and self.board[piece.row + 2][piece.col - 2] == 0:
-                    print("hop")
                     hops.append(SOUTHWEST)
 
             elif piece.color == RED and piece.row > 1:
                 NORTHWEST = self.board[piece.row - 1][piece.col - 1]
                 NORTHEAST = self.board[piece.row - 1][piece.col + 1]
                 if NORTHEAST != 0 and NORTHEAST.color == WHITE and piece.col + 2 <= COLS - 1 and self.board[piece.row - 2][piece.col + 2] == 0:
-                    print("hop")
                     hops.append(NORTHEAST)
                 if NORTHWEST != 0 and NORTHWEST.color == WHITE and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                    print("hop")
                     hops.append(NORTHWEST)
                 
         elif piece != 0 and piece.col == COLS -1:
@@ -169,31 +157,18 @@ class Board:
             if piece.king == True:
                 if piece.color == WHITE:
                     if NORTHWEST != 0 and NORTHWEST.color == RED and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                        print(piece.row, piece.col)
-                        print("hop")
                         hops.append(NORTHWEST)
                     if SOUTHWEST != 0 and SOUTHWEST.color == RED and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                        print(piece.row, piece.col)
-                        print("hop")
                         hops.append(SOUTHWEST)
                 elif piece.color == RED:
                     if NORTHWEST != 0 and NORTHWEST.color == WHITE and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                        print(piece.row, piece.col)
-                        print("hop")
                         hops.append(NORTHWEST)
                     if SOUTHWEST != 0 and SOUTHWEST.color == WHITE and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                        print(piece.row, piece.col)
-                        print("hop")
                         hops.append(SOUTHWEST) 
             elif piece.color == RED and NORTHWEST != 0 and NORTHWEST.color == WHITE and piece.col - 2 >= 0 and self.board[piece.row - 2][piece.col - 2] == 0:
-                print(piece.row, piece.col)
-                print("hop")
                 hops.append(NORTHWEST)      
             elif piece.color == WHITE and SOUTHWEST != 0 and SOUTHWEST.color == RED  and piece.col - 2 >= 0 and self.board[piece.row + 2][piece.col - 2] == 0:
-                print(piece.row, piece.col)
-                print("hop")
                 hops.append(SOUTHWEST)
-        print(hops)
         return hops
 
     def get_piece(self, row, col):
@@ -202,7 +177,8 @@ class Board:
     def check_win(self):
         if self.white_left == 0 or  self.red_left == 0:
             return False
-        else: return True 
+        else: 
+            return True 
            
     def create_board(self):
         for row in range(ROWS):

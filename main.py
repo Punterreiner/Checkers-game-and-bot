@@ -1,6 +1,7 @@
 import pygame
 from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
 from checkers.board import Board
+from bots.white_bot import WhiteBot, CheckersState 
 
 
 FPS = 60
@@ -23,11 +24,21 @@ def main():
     
     while run:
         clock.tick(FPS)
-    
+
+        #if red == False:
+            #state = CheckersState(board.board, True, [])
+            #move = WhiteBot.iterativeDeepeningAlphaBeta(state, WhiteBot.piecesCount)
+            #print(move)
+            #for step in move:
+                #print(step[0], step[1])
+            
         for event in pygame.event.get():
             
+            #print(board.board)
             wl = board.white_left
             rl = board.red_left
+            
+            run = board.check_win()
             
             if event.type == pygame.QUIT:
                 run = False
@@ -48,7 +59,6 @@ def main():
                         else:
                             red = not red
                             
-            run = board.check_win()
 
             board.draw(WIN)
             pygame.display.update()
